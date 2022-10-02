@@ -7,7 +7,7 @@ from math import *
 
 
 def main ():
-    update_raw_prices()
+    #update_raw_prices()
     update_esg_scores()
 
 def update_all ():
