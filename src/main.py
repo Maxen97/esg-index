@@ -7,7 +7,7 @@ from math import *
 
 
 def main ():
-    #update_raw_prices()
+    update_raw_prices()
     update_esg_scores()
 
 def update_all ():
@@ -19,7 +19,7 @@ def update_all ():
 
 
 def update_raw_prices ():
-    filename = "db/prices.csv"
+    filename = "db/historic_adjusted_stock_prices.csv"
 
     tickers = ["aapl", "msft", "dhr"]
 
