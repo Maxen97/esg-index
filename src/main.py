@@ -40,7 +40,7 @@ def update_esg_scores ():
     d = []
     df = pd.DataFrame()
 
-    for i, ticker in enumerate(tickers):
+    for ticker in tickers:
         headers = {"User-Agent" : "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.127 Safari/537.36"}
         response = requests.get(url, headers=headers, params={"symbol": ticker})
    
@@ -51,7 +51,7 @@ def update_esg_scores ():
             _df = _df.set_index("timestamp")
             df[ticker] = _df["esgScore"]
     
-    #df.to_csv(filename)
+    df.to_csv(filename)
     print(df)
 
 
