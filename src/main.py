@@ -1,14 +1,12 @@
-import numpy as np
 import pandas as pd
 import yfinance as yf
-import matplotlib.pyplot as plt
 import requests
-from math import *
 
 
 def main ():
     #update_raw_prices()
     update_esg_scores()
+
 
 def update_all ():
     # update all raw data files
