@@ -20,12 +20,9 @@ def init_historic_raw_monethly_esg_scores():
 
     tickers = ["aapl", "msft", "dhr"]
 
-    pd.set_option('display.max_rows', None)
-
     # URL for ESG query
     url = "https://query2.finance.yahoo.com/v1/finance/esgChart"
 
-    d = []
     df = pd.DataFrame()
 
     for ticker in tickers:
@@ -48,13 +45,25 @@ def init_historic_padded_daily_esg_scores():
 
     tickers = ["aapl", "msft", "dhr"]
 
+    price = pd.read_csv("db/historic_raw_daily_prices.csv", index_col="Date")
+    esg = pd.read_csv("db/historic_raw_monthly_esg_scores.csv", index_col="timestamp")
 
     # Create pandas DataFrame with exact same rows as daily_prices dataframe
+    df = pd.DataFrame(index=price.index.copy())
 
     # Fill with esg scores from monthly raw dataframe
+    for ticker in list(esg.columns):
+        pass
+    print(esg.loc[:,"msft"])
 
     # Add padding
+    df.to_csv(filename)
 
 
 if __name__ == "__main__":
-    pass
+    pd.set_option('display.max_rows', None)
+    #init_historic_raw_daily_prices()
+    #init_historic_raw_monethly_esg_scores()
+    init_historic_padded_daily_esg_scores()
+    
+    
