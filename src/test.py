@@ -8,6 +8,7 @@ def init_historic_raw_daily_prices():
     tickers = ["aapl", "msft", "dhr"]
     start_date = "2014-09-01"
     end_date = "2022-09-01"
+    print(end_date)
 
     p = yf.download(tickers, start=start_date).dropna()["Adj Close"]
 
