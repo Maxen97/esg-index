@@ -2,7 +2,6 @@ import pandas as pd
 import yfinance as yf
 import requests
 
-    
 
 def init_historic_raw_daily_prices():
     filename = "db/historic_raw_daily_prices.csv"
