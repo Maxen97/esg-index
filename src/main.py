@@ -22,6 +22,8 @@ class Index:
 		self._init_historic_daily_prices_raw()
 		self._init_historic_monthly_esg_scores_raw()
 		self._init_historic_padded_daily_esg_scores()
+		self._create_weights()
+		self._create_index()
 
 
 	def _init_historic_daily_prices_raw(self):
@@ -48,23 +50,34 @@ class Index:
 
 
 	def _init_historic_padded_daily_esg_scores(self):
-		# Create a new dataframe with the same indices as self.prices
+		# Create a new dataframe with the same indices as prices
 		self.esg_scores = pd.DataFrame(index=self.prices.index.copy())
 
-		# Merge self.esg_scores with self.esg_scores_raw using combine_first
+		# Merge esg_scores with esg_scores_raw
 		self.esg_scores = self.esg_scores.combine_first(self.esg_scores_raw)
 
 		# Forward fill any missing values
 		self.esg_scores = self.esg_scores.ffill()
 
-		# Align the indices of self.esg_scores with self.prices
+		# Align the indices of esg_scores with prices
 		self.esg_scores = self.esg_scores.reindex(index=self.prices.index)
 
 
+	def _create_weights(self):
+		sum = self.esg_scores.sum(axis=1)
+		self.esg_weights = self.esg_scores.div(sum, axis=0)
+
+
+	def _create_index(self):
+		self.index = self.prices.mul(self.esg_weights).sum(axis=1)
+
+
 	def save_csv(self, path="data/"):
-		self.prices.to_csv(path+"A.csv")
-		self.esg_scores_raw.to_csv(path+"B.csv")
-		self.esg_scores.to_csv(path+"C.csv")
+		self.prices.to_csv(path+"prices.csv")
+		self.esg_scores_raw.to_csv(path+"esg_scores_raw.csv")
+		self.esg_scores.to_csv(path+"esg_scores.csv")
+		self.esg_weights.to_csv(path+"esg_weights.csv")
+		self.index.to_csv(path+"index.csv")
 
 
 if __name__ == "__main__":
