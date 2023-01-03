@@ -69,7 +69,10 @@ class Index:
 
 
 	def _create_index(self):
-		self.index = self.prices.mul(self.esg_weights).sum(axis=1)
+		self.index = self.prices * self.esg_weights
+		print(self.index)
+		self.index = self.index.sum(axis=1)
+		print(self.index)
 
 
 	def save_csv(self, path="data/"):
@@ -84,5 +87,6 @@ if __name__ == "__main__":
 	pd.set_option('display.max_rows', None)
 
 	tickers = ["AAPL", "MSFT", "DHR"]
+	tickers = ["MSFT", "AAPL"]
 	index = Index(tickers=tickers)
 	index.save_csv("db/")
