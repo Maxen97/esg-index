@@ -4,7 +4,7 @@ import requests
 
 
 class Index:
-	def __init__(self, tickers=[], start_date="2014-09-01", weighting="normal"):
+	def __init__(self, tickers=[], start_date="2019-12-01", weighting="normal"):
 		self.tickers = tickers
 		self.start_date = start_date
 		self.weighting = weighting
@@ -35,6 +35,7 @@ class Index:
 		# URL for ESG query
 		url = "https://query2.finance.yahoo.com/v1/finance/esgChart"
 
+		# On 2019-12-01, the ESG score was changed so that lower is better
 		for ticker in self.tickers:
 			headers = {"User-Agent" : "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.127 Safari/537.36"}
 			response = requests.get(url, headers=headers, params={"symbol": ticker})
@@ -70,9 +71,9 @@ class Index:
 
 	def _create_index(self):
 		self.index = self.prices * self.esg_weights
-		print(self.index)
+		#print(self.index)
 		self.index = self.index.sum(axis=1)
-		print(self.index)
+		#print(self.index)
 
 
 	def save_csv(self, path="data/"):
@@ -90,3 +91,21 @@ if __name__ == "__main__":
 	tickers = ["MSFT", "AAPL"]
 	index = Index(tickers=tickers)
 	index.save_csv("db/")
+
+
+	""" api code examples
+
+	import indexgenerator as ig
+
+	options = {
+				tickers = ["MSFT", "AAPL", "DHR"],
+				start_date = "2020-01-01",
+				weighting = "dividend"
+				weighting_function = "normal"
+				}
+
+	index = ig.Index(options)
+	
+	index.plot()
+	
+	"""
